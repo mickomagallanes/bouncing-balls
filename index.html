@@ -18,10 +18,25 @@ var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 var circle_array = [];
 var ballnumber = 100;  // pretty self-explanatory
-
+var speed = -2;
+var min_radius = 4;
+var max_radius = 30;
+var max_radius_expand = 70;
+var mouse_radius = 20;
+var mouse_pos = {
+	x: undefined,
+	y: undefined
+	
+};
+canvas.addEventListener('mousemove', 
+	function(event) {
+		mouse_pos.x = event.offsetX;
+		mouse_pos.y = event.offsetY;
+});
 function Circle() {
 	// ball size
-	this.radius = 20;
+	this.radius = Math.floor(Math.random() * (max_radius - min_radius + 1)) + min_radius;
+	this.old_radius = this.radius;
 	// randomized location spawn
 	this.x = Math.floor(Math.random() * (canvas.width - (this.radius * 2) + 1)) + this.radius;
 	this.y = Math.floor(Math.random() * (canvas.height - (this.radius * 2) + 1)) + this.radius;
@@ -36,8 +51,8 @@ function Circle() {
 		this.rand2 = -1;
 	}
 	// velocity * direction
-    this.dx = -4 * this.rand;
-    this.dy = -4 * this.rand2;
+    this.dx = speed * this.rand;
+    this.dy = speed * this.rand2;
 	
 	this.drawBall = function() {
 		// randomized color
@@ -60,6 +75,20 @@ function Circle() {
 		}
 		this.x += this.dx;
 		this.y += this.dy;
+		
+		// interactivity
+		if (mouse_pos.x - this.x < mouse_radius && mouse_pos.y - this.y < mouse_radius 
+			&& mouse_pos.x - this.x > -mouse_radius && mouse_pos.y - this.y > -mouse_radius) {
+			if (this.radius != max_radius_expand) {
+				this.radius++;
+			}
+			this.dx = -this.dx;
+			this.dy = -this.dy;
+		}
+		else if (this.radius > this.old_radius) {
+			this.radius--;
+		}
+
 		this.drawBall();
 	};
 	
