@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Gamedev Canvas Workshop</title>
+    <style>
+    	* { padding: 0; margin: 0; }
+    	canvas { background: #eee; display: block; margin: 2em auto 0; }
+    </style>
+</head>
+<body>
+
+<canvas id="myCanvas" width="600" height="600"></canvas>
+
+<script>
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+var circle_array = [];
+var ballnumber = 100;  // pretty self-explanatory
+
+function Circle() {
+	// ball size
+	this.radius = 20;
+	// randomized location spawn
+	this.x = Math.floor(Math.random() * (canvas.width - (this.radius * 2) + 1)) + this.radius;
+	this.y = Math.floor(Math.random() * (canvas.height - (this.radius * 2) + 1)) + this.radius;
+	
+	// randomized direction, roll for 0 and 1
+	this.rand = Math.floor((Math.random() * 2));
+	this.rand2 = Math.floor((Math.random() * 2));
+	if (this.rand == 0) {
+		this.rand = -1;
+	}
+	if (this.rand2 == 0) {
+		this.rand2 = -1;
+	}
+    this.dx = -4 * this.rand;
+    this.dy = -4 * this.rand2;
+	
+	this.drawBall = function() {
+		// randomized color
+		var num_color1 = Math.floor((Math.random() * 255) + 1);
+		var num_color2 = Math.floor((Math.random() * 255) + 1);
+		var num_color3 = Math.floor((Math.random() * 255) + 1);
+		ctx.beginPath();
+		ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2);
+		ctx.fillStyle = "rgb("+ num_color1 +", " + num_color2 + ", " + num_color3 + ")";
+		ctx.fill();
+		ctx.closePath();
+	};
+	
+	this.update = function() {
+		if ((this.y - this.radius) < 0 || this.y + this.radius > canvas.height) {
+			this.dy = -this.dy
+		}
+		if ((this.x - this.radius) < 0 || this.x + this.radius > canvas.width) {
+			this.dx = -this.dx
+		}
+		this.x += this.dx;
+		this.y += this.dy;
+		this.drawBall();
+	}
+	
+}
+
+function animate() {
+	requestAnimationFrame(animate);
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+	for (var i = 0; i < circle_array.length; i++) {
+		circle_array[i].update();
+			
+	}
+}
+
+// make ball
+for (var i = 0; i < ballnumber; i++) {
+	circle_array.push(new Circle());
+
+}
+
+animate();
+</script>
+
+</body>
+</html>
