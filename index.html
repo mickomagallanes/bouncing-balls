@@ -5,24 +5,27 @@
     <title>Bouncing Balls</title>
     <style>
     	* { padding: 0; margin: 0; }
-    	canvas { background: #eee; display: block; margin: 2em auto 0; }
+    	canvas { background: #eee; display: block; }
     </style>
 </head>
 <body>
 
-<canvas id="myCanvas" width="600" height="600"></canvas>
+<canvas id="myCanvas"></canvas>
 
 <script>
 // bouncing balls
 var canvas = document.getElementById("myCanvas");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
 var ctx = canvas.getContext("2d");
 var circle_array = [];
-var ballnumber = 100;  // pretty self-explanatory
-var speed = -2;
-var min_radius = 4;
-var max_radius = 30;
-var max_radius_expand = 70;
-var mouse_radius = 20;
+var ballnumber = 200;  // pretty self-explanatory
+var speed = -1;		// travel speed by x and y
+var min_radius = 4;		// range of ball random size - minimum
+var max_radius = 30;	// range of ball random size - minimum
+var max_radius_expand = 70;		//maximum expand size of ball
+var mouse_radius = 25;	// for interactivity
 var mouse_pos = {
 	x: undefined,
 	y: undefined
@@ -33,10 +36,24 @@ canvas.addEventListener('mousemove',
 		mouse_pos.x = event.offsetX;
 		mouse_pos.y = event.offsetY;
 });
+canvas.addEventListener('mouseleave', 
+	function(event) {
+		mouse_pos.x = undefined;
+		mouse_pos.y = undefined;
+});
+window.addEventListener('resize', 
+	function(event) {
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+		init();
+});
+
 function Circle() {
+	
 	// ball size
 	this.radius = Math.floor(Math.random() * (max_radius - min_radius + 1)) + min_radius;
 	this.old_radius = this.radius;
+	
 	// randomized location spawn
 	this.x = Math.floor(Math.random() * (canvas.width - (this.radius * 2) + 1)) + this.radius;
 	this.y = Math.floor(Math.random() * (canvas.height - (this.radius * 2) + 1)) + this.radius;
@@ -50,11 +67,13 @@ function Circle() {
 	if (this.rand2 == 0) {
 		this.rand2 = -1;
 	}
+	
 	// velocity * direction
     this.dx = speed * this.rand;
     this.dy = speed * this.rand2;
 	
 	this.drawBall = function() {
+		
 		// randomized color
 		var num_color1 = Math.floor((Math.random() * 255) + 1);
 		var num_color2 = Math.floor((Math.random() * 255) + 1);
@@ -79,9 +98,12 @@ function Circle() {
 		// interactivity
 		if (mouse_pos.x - this.x < mouse_radius && mouse_pos.y - this.y < mouse_radius 
 			&& mouse_pos.x - this.x > -mouse_radius && mouse_pos.y - this.y > -mouse_radius) {
+			
+			// increase ball size when near the pointer
 			if (this.radius != max_radius_expand) {
 				this.radius++;
 			}
+			// change direction when near the pointer
 			this.dx = -this.dx;
 			this.dy = -this.dy;
 		}
@@ -104,13 +126,19 @@ function animate() {
 	}
 }
 
-// make ball
-for (var i = 0; i < ballnumber; i++) {
-	circle_array.push(new Circle());
+function init() {
+	circle_array = [];   // clear the array
+	// make ball
+	for (var i = 0; i < ballnumber; i++) {
+		circle_array.push(new Circle());
 
+	}
+
+	
 }
-
+init();
 animate();
+
 </script>
 
 </body>
