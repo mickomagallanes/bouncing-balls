@@ -24,6 +24,7 @@ var array_bullet = [];
 var array_alien = [];
 var ball_interval;
 var image1 = new Image(40, 40);
+
 // tracing the mouse state
 var globalX;  // location of mouse point when it moves
 
@@ -152,7 +153,8 @@ function explode(x, y) {
     ctx.fillStyle = "yellow";
     ctx.fill();
     ctx.closePath();
-	//ctx.drawImage(image1, x, y);
+	/* ctx.drawImage(image1, x, y);
+	image1.src = './explode.gif'; */
 }
 // use it like a timer
 ScreenTimer();
