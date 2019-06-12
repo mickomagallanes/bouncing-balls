@@ -77,9 +77,9 @@ var if_color_palette = function(obj) {
 		obj.ball_color = color_palette[roll_index];
 	}
 	else {
-		obj.num_color1 = Math.floor((Math.random() * 255) + 1);
-		obj.num_color2 = Math.floor((Math.random() * 255) + 1);
-		obj.num_color3 = Math.floor((Math.random() * 255) + 1);
+		obj.num_color1 = Math.floor((Math.random() * 256));
+		obj.num_color2 = Math.floor((Math.random() * 256));
+		obj.num_color3 = Math.floor((Math.random() * 256));
 	}
 }
 
