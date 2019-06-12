@@ -6,20 +6,59 @@
     <style>
     	* { padding: 0; margin: 0; }
     	canvas { background: #eee; display: block; }
+		#combobox {z-index: 10000; position: absolute; top: 0px; left: 50%; transform: translate(-50%);}
+		#wrapper {position: relative;}
     </style>
 </head>
 <body>
+<div id="wrapper">
+	<canvas id="myCanvas"></canvas>
+	<div id="combobox">
+		<select id="colors">
+		  <option value=0 selected>Random</option>
+		  <option value="red_black">Red & Black</option>
+		  <option value="mint_gray">Mint & Gray</option>
+		  <option value="coral_reef">Coral Reef</option>
+		  <option value="forest">Forest</option>
+		  <option value="roses">Roses</option>
+		  <option value="philippines">Philippines</option>
+		  <option value="elegant1">Elegant I</option>
+		  <option value="black_gold">Black & Gold</option>
+		</select>
+		
+		<select id="sparks">
+		  <option value=0 selected>Not Sparkling</option>
+		  <option value=1>Sparkling</option>
 
-<canvas id="myCanvas"></canvas>
+		</select>
+	</div>
+</div>
 
 <script>
-// bouncing balls
 var canvas = document.getElementById("myCanvas");
+var select_colors = document.getElementById("colors");
+var select_sparks = document.getElementById("sparks");
+
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+var isSparkling = parseInt(select_sparks.value);	// is changing color every seconds?
+
+// color combinations object, add new here
+var color_pallete_object = {
+	red_black: ["#ee4540", "#c72c41", "#801336", "#2d132c"],
+	mint_gray: ["#8f758e", "#735372", "#313848", "#8adfdc"],
+	coral_reef: ["#ff967d", "#ff6e55", "#eb78a0", "#be3778", "#007d7d"],
+	forest: ["#9bc34b", "#69962d", "#3c6e1e", "#2d5514", "#19410a"],
+	roses: ["#ff7daa", "#fe486e", "#eb203e", "#c51428", "#860218"],
+	philippines: ["#fcd116", "#ffffff", "#0038a8", "#ce1126"],
+	elegant1: ["#e9dbbd", "#cbb682", "#a08c5b", "#785f37", "#181510"],
+	black_gold: ["#151515", "#0a0a0a", "#ffdd03", "#fbc403"],
+}
+var color_palette = parseInt(select_colors.value);	// color combination
 var ctx = canvas.getContext("2d");
-var circle_array = [];
+
+var circle_array = [];	//where Circle object get stored
 var ballnumber = 200;  // pretty self-explanatory
 var speed = -1;		// travel speed by x and y
 var min_radius = 4;		// range of ball random size - minimum
@@ -28,25 +67,21 @@ var max_radius_expand = 70;		//maximum expand size of ball
 var mouse_radius = 25;	// for interactivity
 var mouse_pos = {
 	x: undefined,
-	y: undefined
-	
+	y: undefined	
 };
-canvas.addEventListener('mousemove', 
-	function(event) {
-		mouse_pos.x = event.offsetX;
-		mouse_pos.y = event.offsetY;
-});
-canvas.addEventListener('mouseleave', 
-	function(event) {
-		mouse_pos.x = undefined;
-		mouse_pos.y = undefined;
-});
-window.addEventListener('resize', 
-	function(event) {
-		canvas.width = window.innerWidth;
-		canvas.height = window.innerHeight;
-		init();
-});
+
+// wrapped if statement
+var if_color_palette = function(obj) {
+	if (color_palette) {
+		var roll_index = Math.floor((Math.random() * color_palette.length));
+		obj.ball_color = color_palette[roll_index];
+	}
+	else {
+		obj.num_color1 = Math.floor((Math.random() * 255) + 1);
+		obj.num_color2 = Math.floor((Math.random() * 255) + 1);
+		obj.num_color3 = Math.floor((Math.random() * 255) + 1);
+	}
+}
 
 function Circle() {
 	
@@ -71,16 +106,28 @@ function Circle() {
 	// velocity * direction
     this.dx = speed * this.rand;
     this.dy = speed * this.rand2;
+	this.ball_color;
+	
+	if (!isSparkling) {
+		if_color_palette(this);
+	}
 	
 	this.drawBall = function() {
 		
 		// randomized color
-		var num_color1 = Math.floor((Math.random() * 255) + 1);
-		var num_color2 = Math.floor((Math.random() * 255) + 1);
-		var num_color3 = Math.floor((Math.random() * 255) + 1);
+		if (isSparkling) {
+			if_color_palette(this);
+		}
+		
 		ctx.beginPath();
 		ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2);
-		ctx.fillStyle = "rgb("+ num_color1 +", " + num_color2 + ", " + num_color3 + ")";
+
+		if (color_palette) {
+			ctx.fillStyle = this.ball_color;
+		}
+		else {
+			ctx.fillStyle = "rgb("+ this.num_color1 +", " + this.num_color2 + ", " + this.num_color3 + ")";
+		}
 		ctx.fill();
 		ctx.closePath();
 	};
@@ -128,16 +175,61 @@ function animate() {
 
 function init() {
 	circle_array = [];   // clear the array
+	
 	// make ball
 	for (var i = 0; i < ballnumber; i++) {
 		circle_array.push(new Circle());
-
 	}
 
-	
 }
 init();
 animate();
+
+canvas.addEventListener('mousemove', 
+	function(event) {
+		mouse_pos.x = event.offsetX;
+		mouse_pos.y = event.offsetY;
+});
+
+canvas.addEventListener('mousedown', 
+	function(event) {
+		mouse_pos.x = event.offsetX;
+		mouse_pos.y = event.offsetY;
+});
+
+canvas.addEventListener('mouseleave', 
+	function(event) {
+		mouse_pos.x = undefined;
+		mouse_pos.y = undefined;
+});
+
+window.addEventListener('resize', 
+	function(event) {
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+		init();
+});
+
+select_colors.addEventListener('change', 
+	function() {
+		if (select_colors.value == "0" || !select_colors.value) {
+			color_palette = 0;
+		}
+		else {
+			color_palette = color_pallete_object[select_colors.value];
+		}
+		// change the ball color for each object, only for not sparkling balls
+		if (!isSparkling) {
+			for (var i = 0; i < circle_array.length; i++) {
+				if_color_palette(circle_array[i]);
+			}
+		}
+});
+
+select_sparks.addEventListener('change', 
+	function() {
+		isSparkling = parseInt(select_sparks.value);
+});
 
 </script>
 
