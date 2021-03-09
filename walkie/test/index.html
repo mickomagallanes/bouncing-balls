@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+        content="Free online voice recorder that can be used in your browser. Record your voice and other audio using a microphone and download it as an MP3 file.">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <link rel="canonical" href="https://virtualspeech.com/voice-recorder">
+
+    <title>Online Voice Recorder: Record your Voice from the Microphone</title>
+
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,400italic|Work+Sans:300,400,500,600' rel='stylesheet'
+        type='text/css'>
+    <link href="../css/toolkit-startup.css" rel="stylesheet">
+    <link href="../css/application-startup.css" rel="stylesheet">
+
+    <link rel="icon" type="image/png" href="https://virtualspeech.com/img/VS_favicon.png" />
+
+    <meta property="og:title" content="Online Voice Recorder: Record your Voice from the Microphone" />
+    <meta property="og:description"
+        content="Free online voice recorder that can be used in your browser. Record your voice and other audio using a microphone and download it as an MP3 file.">
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://virtualspeech.com/img/icons/unlimited-voice-recording.jpg" />
+    <meta property="og:url" content="https://virtualspeech.com/voice-recorder" />
+
+    <script type="application/ld+json">
+        {
+        "@context": "http://schema.org",
+        "@type": "WebApplication",
+        "name": "Online Voice Recorder",
+        "url": "https://virtualspeech.com/voice-recorder",
+        "applicationCategory": "Utility",
+        "applicationSubCategory": "Voice Recorder",
+        "about": "Free online voice recorder that can be used in your browser. Record your voice and other audio using a microphone and download it as an MP3 file.",
+        "browserRequirements": "Requires JavaScript",
+        "softwareVersion": "2.0.0",
+        "operatingSystem": "All"
+        }
+    </script>
+
+    <script src="https://js.stripe.com/v3/"></script>
+
+</head>
+
+<body>
+    <div class="stage" id="stage">
+        <!--get header section-->
+        <div id="header"></div>
+        <!--end header-->
+
+
+        <div class="block block-inverse deep_blue" style="padding: 40px 20px;">
+            <div class="container text-center">
+                <h1 class="course-title m-t-0">Online Voice Recorder</h1>
+                <p class="col-sm-8 col-sm-offset-2 course_subtitle m-b-0" style="font-size:20px">Record your voice and
+                    listen back to it or download</p>
+            </div>
+        </div>
+
+
+        <div class="container m-b-lg m-t-md">
+            <div class="row">
+
+                <div class="col-md-8 col-md-push-2 col-sm-12 blog_list_padding blog_styling">
+                    <div id="paySuccessAlert" class="alert alert-success hidden">Your payment was a success! <b>Check
+                            your email</b> for a token which you can use to start recording.</div>
+                    <p>Record your voice and other audio using a microphone. You can then download the audio as an OGG
+                        file or listen back to it in the browser.</p>
+                    <p>Click the button below to start your audio recording. No account required.</p>
+
+                    <div id="recorderSection">
+                        <div class="col-sm-8 col-sm-push-2" style="padding-top:30px;">
+                            <div class="link-spanner-home p-y-md" style="background-color:#f7f7f7">
+                                <div class="p-x text-center">
+                                    <div style="font-size:50px;padding-bottom:10px">
+                                        <label id="minutes">00</label>:<label id="seconds">00</label>
+                                    </div>
+                                    <div class="p-b">
+                                        <a class="btn-lg btn-primary btn-block recording" id="recording_button"
+                                            style="text-decoration: none;cursor: pointer;">Start Recording</a>
+                                        <audio controls id="audioSource" style="display:none;width:100%"
+                                            type="audio/ogg"></audio>
+
+                                    </div>
+                                    <div id="download_restart" class="smaller-font hidden">
+                                        <p style="cursor: pointer;"><a download id="download">Download Audio</a></p>
+                                        <p style="cursor: pointer;"><a class="btn btn-primary" id="restart">New
+                                                Recording</a></p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="paywall" style="padding: 30px;background-color: #f7f7f7;display: none;">
+                        <p>You have used your one free recording, it costs $5 for unlimited recordings for one year.</p>
+                        <a id="buyButton" class="btn btn-primary m-b">Buy unlimited recordings for $5</a>
+                        <p>If you have already paid, enter your token below.</p>
+                        <input id="tokenInput" class="form-control">
+                        <div id="invalidTokenAlert" class="alert alert-warning hidden m-t-sm">That token was invalid,
+                            are you sure you entered it correctly?</div>
+                        <a id="submitToken" class="btn btn-primary m-t-sm">Submit</a>
+                    </div>
+                </div>
+
+                <div class="col-md-8 col-md-push-2 col-sm-12 blog_styling p-a m-t-lg" style="background-color:#ffede5">
+                    <div class="col-sm-9 newsletter_call_to_action">
+                        <p class="m-b-0">Need to convert the audio format after recording? Download the file and use our
+                            conversion tool.</p>
+                    </div>
+                    <div class="col-sm-3 text-center">
+                        <a target="_blank" class="btn btn-primary" style="margin-top:5px;"
+                            href="https://virtualspeech.com/audio-converter">Audio Converter</a>
+                    </div>
+                </div>
+
+
+                <div class="col-md-8 col-md-push-2 col-sm-12 m-t-md">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article"
+                        data-ad-format="fluid" data-ad-client="ca-pub-4408596036048326" data-ad-slot="2046224973"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+
+
+                <div class="col-md-8 col-md-push-2 col-sm-12 blog_styling p-a m-t-md" style="background-color:#e5f5ff">
+                    <div class="col-sm-9 newsletter_call_to_action">
+                        <p class="m-b-0">Improve your communication skills with award-winning courses.</p>
+                    </div>
+                    <div class="col-sm-3 text-center">
+                        <a target="_blank" class="btn btn-primary" style="margin-top:5px;"
+                            href="../courses/?ref=article_text2">See courses</a>
+                    </div>
+                </div>
+
+
+                <div class="col-md-8 col-md-push-2 col-sm-12 p-x-0 blog_styling">
+                    <h3 class="col-sm-12">About this online voice recorder</h3>
+                    <div class="col-sm-6 p-x m-y">
+                        <img class="m-b img-responsive centre_images" src="img/icons/mic-stand-icon.png"
+                            alt="Free voice recorder icon">
+                        <h4>Free voice recorder</h4>
+                        <p class="smaller-font">Our voice recorder is free to use for your first recording ($5 one-time
+                            charge after this) and does not require you to download any external software such as Adobe
+                            Flash.</p>
+                    </div>
+                    <div class="col-sm-6 p-x m-y">
+                        <img class="m-b img-responsive centre_images" src="img/icons/lock-icon.png"
+                            alt="Privacy guaranteed icon">
+                        <h4>Privacy guaranteed</h4>
+                        <p class="smaller-font">Your audio recording on our website is secure. Everything you record is
+                            accessible to only you - nothing is stored on our servers. Our website is secured with a
+                            strong SSL.</p>
+                    </div>
+                </div>
+                <div class="col-md-8 col-md-push-2 col-sm-12 p-x-0">
+                    <div class="col-sm-6 p-x m-b">
+                        <img class="m-b img-responsive centre_images" src="img/icons/mic-icon.png"
+                            alt="Online voice recorder icon">
+                        <h4>Online voice recorder</h4>
+                        <p class="smaller-font">Our voice recorder is a convenient and simple online tool that can be
+                            used in your web browser. You can record your voice using a microphone and save it as a OGG
+                            file.</p>
+                    </div>
+                    <div class="col-sm-6 p-x m-b">
+                        <img class="m-b img-responsive centre_images" src="img/icons/download-icon.png"
+                            alt="Download recordings icon">
+                        <h4>Download recordings</h4>
+                        <p class="smaller-font">After the recording is complete, you can download it and use it in any
+                            way you want. You can also play the recording in the browser if you don’t want to download
+                            it.</p>
+                    </div>
+                </div>
+
+
+                <div class="col-md-8 col-md-push-2 col-sm-12 p-x-0 blog_styling">
+                    <div class="col-sm-12">
+                        <h3>Improve how you sound</h3>
+                        <p>Purchase one of these microphones below to improve your sound quality.</p>
+                    </div>
+                    <div class="col-sm-6 p-x m-y p-b">
+                        <img class="m-b img-responsive centre_images img-circle" src="img/icons/microphone-mobile.jpg"
+                            alt="Microphone for your mobile">
+                        <h4>Microphone for your mobile</h4>
+                        <p class="smaller-font">Microphone kit for your iPhone or Android device. Simply plug it into
+                            your smartphone, and improve the quality of audio recordings.</p>
+                        <a rel="nofollow" target="_blank" href="https://amzn.to/3nfitr8"
+                            class="btn btn-primary btn-block">Buy on Amazon</a>
+                    </div>
+                    <div class="col-sm-6 p-x m-y p-b">
+                        <img class="m-b img-responsive centre_images img-circle" src="img/icons/microphone-computer.jpg"
+                            alt="Microphone for your computer">
+                        <h4>Microphone for your computer</h4>
+                        <p class="smaller-font">High quality recording microphone for your Mac or PC. This popular
+                            microphone connects via USB, with volume control and other settings.</p>
+                        <a rel="nofollow" target="_blank" href="https://amzn.to/3bauZWt"
+                            class="btn btn-primary btn-block">Buy on Amazon</a>
+                    </div>
+                </div>
+
+
+                <div class="col-md-8 col-md-push-2 col-sm-12 blog_list_padding blog_styling">
+                    <h3>Record your voice using an App</h3>
+                    <p>Looking for a voice recording app instead? Here is our curated list of the best voice recording
+                        apps on both the Apple App store and Google Play store.</p>
+                    <ul>
+                        <li><b>Easy Voice Recorder (<a target="_blank"
+                                    href="https://play.google.com/store/apps/details?id=com.coffeebeanventures.easyvoicerecorder">Android</a>)</b>
+                            - this app provides an easy way to record audio with your phone. You open the app, hit the
+                            mic button, record, share as needed, and then close the app. It also has a few additional
+                            features, like the ability to change what kind of file type you record to.</li>
+                        <li><b>Hi-Q MP3 Voice Recorder (<a target="_blank"
+                                    href="https://play.google.com/store/apps/details?id=com.hiqrecorder.free">Android</a>)</b>
+                            - Hi-Q is a powerful voice recorder app. The app records MP3 and you can upload your audio
+                            automatically to Dropbox once the recording has finished. The app also lets you choose which
+                            mic on your device to use, support for Wi-Fi transfer, gain control, and more.</li>
+                        <li><b>Voice Recorder &amp; Audio Editor (<a target="_blank"
+                                    href="https://itunes.apple.com/gb/app/voice-recorder-audio-editor/id685310398?mt=8">Apple</a>)</b>
+                            - voice recorder for the iPhone and iPad. Transcribe recordings in the app using
+                            speech-to-text technology, add notes to recordings and cloud support where you can save your
+                            audio recordings to. Advanced features include multiple audio formats, loop recordings and
+                            changing playback speed.</li>
+                        <li><b>Voice Recorder (<a target="_blank"
+                                    href="https://itunes.apple.com/gb/app/voice-recorder-recording-app/id492995106?mt=8">Apple</a>)</b>
+                            - a simple voice recording app for iPhones. You can record and mix audio within the app,
+                            record only when someone is speaking, increase the recording volume and record via Bluetooth
+                            headset. The app supports multiple file formats.</li>
+                    </ul>
+
+                </div>
+
+
+            </div><!-- /.row -->
+        </div><!-- /.container -->
+        <!--get footer section-->
+        <div id="footer"></div>
+        <!--end footer-->
+    </div>
+
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/mob_nav.js"></script>
+
+    <script>
+        $(function () {
+            $("#header").load("../resources/header");
+            $("#footer").load("../resources/footer");
+        });
+    </script>
+    <script>
+        $("#paywall").hide()
+        $("#recorderSection").show()
+
+
+        var stripe = Stripe('pk_live_f09gm8Hsuwbmt2xzeNLffypo');
+
+        $("#buyButton").on("click", function () {
+            stripe.redirectToCheckout({
+                lineItems: [{
+                    price: 'price_1I1s0dB6uuXRS8YVtXuG9wFV',
+                    quantity: 1,
+                }],
+                mode: 'payment',
+                successUrl: 'https://virtualspeech.com/voice-recorder?purchase=true',
+                cancelUrl: 'https://virtualspeech.com/voice-recorder',
+            }).then(function (result) {
+                // If `redirectToCheckout` fails due to a browser or network
+                // error, display the localized error message to your customer
+                // using `result.error.message`.
+            });
+        })
+
+
+        var stream, recorder, chunks;
+        var media = {
+            tag: 'audio',
+            type: 'audio/ogg',
+            ext: '.ogg',
+            gUM: { audio: true }
+        }
+
+        function makeLink() {
+            var blob = new Blob(chunks, { type: media.type });
+            var url = URL.createObjectURL(blob);
+            $("#download").attr("href", url);
+            $("#audioSource").attr("src", url).show();
+            $("#recording_button").hide();
+        }
+
+        //change name of button on click
+        $("#recording_button").on("click", record_button_click)
+
+        //set discard / reset function
+        document.getElementById("restart").onclick = discard_recording_fn;
+
+        var button_counter = 0;
+        function record_button_click() {
+            // console.log(button_counter);
+            if (button_counter == 0) {
+                start_recording_fn();
+            }
+            if (button_counter == 1) {
+                stop_recording_fn();
+            }
+            if (button_counter == 2) {
+                play_recording_fn();
+            }
+            button_counter += 1;
+        }
+
+
+        var start_timer_clock = 0;
+
+        function start_recording_fn() {
+
+            chunks = [];
+            navigator.mediaDevices.getUserMedia(media.gUM).then(_stream => {
+                stream = _stream;
+                recorder = new MediaRecorder(stream);
+                start_timer_clock = setInterval(setTime, 1000);
+                recorder.start();
+                recorder.ondataavailable = e => {
+                    chunks.push(e.data);
+                    if (recorder.state == 'inactive') makeLink();
+                }
+            })
+
+            //change button name
+            document.getElementById("recording_button").innerHTML = "Stop Recording";
+        }
+
+
+
+        function stop_recording_fn() {
+
+            recorder.stop();
+            //change button name
+            document.getElementById("recording_button").innerHTML = "Play";
+
+            //stop timer clock
+            clearInterval(start_timer_clock);
+            //reset timer to 0 so if they start record again it starts at 0
+            totalSeconds = 0;
+
+            //show discard and download buttons when user stops audio record
+            document.getElementById("download_restart").classList.remove("hidden");
+
+            window.localStorage.setItem('recordingMade', 'true');
+        }
+
+        function play_recording_fn() {
+            $("#recording_button").off("click").one("click", function () {
+                try {
+                    $("#play").play();
+                } catch (e) {
+                    console.log(e)
+                }
+            })
+            //change button name
+            document.getElementById("recording_button").innerHTML = "Stop Playing";
+        }
+
+        function stop_play_recording_fn() {
+
+            $("#recording_button").off("click").one("click", function () {
+                try {
+                    $("#play").pause();
+                } catch (e) {
+                    console.log(e)
+                }
+            })
+            //change button name
+            document.getElementById("recording_button").innerHTML = "Reset";
+        }
+
+
+        function discard_recording_fn() {
+            setTimeout(function () { location.reload(); }, 1000);
+        }
+
+        //clock timer
+        var minutesLabel = document.getElementById("minutes");
+        var secondsLabel = document.getElementById("seconds");
+        var totalSeconds = 0;
+
+
+        function setTime() {
+            ++totalSeconds;
+            secondsLabel.innerHTML = pad(totalSeconds % 60);
+            minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
+        }
+
+        function pad(val) {
+            var valString = val + "";
+            if (valString.length < 2) {
+                return "0" + valString;
+            } else {
+                return valString;
+            }
+        }
+
+
+
+    </script>
+
+</body>
+
+</html>

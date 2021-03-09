@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en" class="no-js">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Walkie Talkie</title>
+    <meta name="description" content="Walkie Talkie, talk through browser">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/sticky-menu.css" rel="stylesheet">
+</head>
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+
+    <!-- Welcome   -->
+    <section id="welcome" class="welcome-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <button id="btnCall">Start streaming</button>
+
+                </div>
+                <div class="col-lg-12">
+                    <audio id="btnAudio" controls>
+
+                    </audio>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        (function () {
+
+            // function makeLink() {
+            //     var blob = new Blob(chunks, { type: media.type });
+            //     var url = URL.createObjectURL(blob);
+            //     $("#download").attr("href", url);
+            //     $("#audioSource").attr("src", url).show();
+            //     $("#recording_button").hide();
+            // }
+
+            let chunks, recorder;
+            function start_recording_fn() {
+
+                chunks = [];
+                navigator.mediaDevices.getUserMedia({ audio: true }).then(_stream => {
+                    stream = _stream;
+                    const audioTracks = stream.getAudioTracks();
+                    const track = audioTracks[0];
+
+                    recorder = new MediaRecorder(stream);
+                    // start_timer_clock = setInterval(setTime, 1000);
+                    recorder.start();
+                    recorder.ondataavailable = e => {
+                        chunks.push(e.data);
+                        // if (recorder.state == 'inactive') makeLink();
+                    };
+                    setTimeout(() => {
+                        track.stop();
+                        recorder.stop();
+                    }, 10 * 1000);
+
+
+                    let blob = new Blob(chunks, { type: 'audio/ogg' });
+                    let url = URL.createObjectURL(blob);
+                    console.log(url)
+                    document.querySelector('#btnAudio').srcObject = url;
+                })
+
+                //change button name
+                // document.getElementById("recording_button").innerHTML = "Stop Recording";
+            }
+
+            let requestMicrophone = function () {
+
+                navigator.mediaDevices && navigator.mediaDevices.getUserMedia
+                    ? navigator.mediaDevices.getUserMedia({
+                        audio: true
+                    }).catch(function (a) {
+
+                    })
+                    : (navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia,
+                        navigator.getUserMedia ? navigator.getUserMedia({
+                            audio: !0
+                        }, f, b) : E.error("old_gum_error"))
+            }
+
+            document.querySelector('#btnCall').addEventListener('click', async (e) => {
+                // try {
+                //     const stream = await navigator.mediaDevices.getUserMedia({
+                //         audio: true
+                //     });
+
+                //     console.log(stream.getAudioTracks())
+                //     const audioTracks = stream.getAudioTracks();
+                //     const track = audioTracks[0];
+
+                //     document.querySelector('#btnAudio').srcObject = stream;
+                //     document.querySelector('#btnAudio').play().catch(function () {
+                //         // do something
+                //     });
+                // } catch (error) {
+
+                // }
+                start_recording_fn()
+            });
+        }());
+
+    </script>
+</body>
+
+</html>
