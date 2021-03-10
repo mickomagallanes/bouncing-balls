@@ -1,4 +1,10 @@
-var conf = { iceServers: [{ urls: "stun:stun.stunprotocol.org" }] };
+var conf = {
+	iceServers: [{
+		url: 'turn:turn.bistri.com:80',
+		credential: 'homeo',
+		username: 'homeo'
+	}]
+};
 var pc = new RTCPeerConnection(conf);
 var localStream, _fileChannel, chatEnabled, context, source,
 	_chatChannel, sendFileDom = {},
