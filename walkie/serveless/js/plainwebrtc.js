@@ -7,6 +7,8 @@ var localStream, _fileChannel, chatEnabled, context, source,
 	file,
 	bytesPrev = 0;
 
+var myPassword = "9418409uf9879";
+
 function errHandler(err) {
 	console.log(err);
 }
@@ -56,7 +58,10 @@ pc.onicecandidate = function (e) {
 	var cand = e.candidate;
 	if (!cand) {
 		console.log('iceGatheringState complete', pc.localDescription.sdp);
-		localOffer.value = JSON.stringify(pc.localDescription);
+
+		var localValue = JSON.stringify(pc.localDescription);
+
+		localOffer.value = CryptoJS.AES.encrypt(localValue, myPassword);
 	} else {
 		console.log(cand.candidate);
 	}
@@ -73,7 +78,8 @@ pc.onconnection = function (e) {
 }
 
 remoteOfferGot.onclick = function () {
-	var _remoteOffer = new RTCSessionDescription(JSON.parse(remoteOffer.value));
+	var remoteValue = CryptoJS.AES.decrypt(remoteOffer.value, myPassword);
+	var _remoteOffer = new RTCSessionDescription(JSON.parse(remoteValue.toString(CryptoJS.enc.Utf8)));
 	console.log('remoteOffer \n', _remoteOffer);
 	pc.setRemoteDescription(_remoteOffer).then(function () {
 		console.log('setRemoteDescription ok');
@@ -86,6 +92,7 @@ remoteOfferGot.onclick = function () {
 		}
 	}).catch(errHandler);
 }
+
 localOfferSet.onclick = function () {
 	if (chatEnabled) {
 		_chatChannel = pc.createDataChannel('chatChannel');
@@ -102,7 +109,10 @@ localOfferSet.onclick = function () {
 					return;
 				} else {
 					console.log('after GetherTimeout');
-					localOffer.value = JSON.stringify(pc.localDescription);
+
+					var localValue = JSON.stringify(pc.localDescription);
+
+					localOffer.value = CryptoJS.AES.encrypt(localValue, myPassword);
 				}
 			}, 2000);
 			console.log('setLocalDescription ok');
