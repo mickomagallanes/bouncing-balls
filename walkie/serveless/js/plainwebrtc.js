@@ -3,7 +3,7 @@ var conf = {
 		url: 'turn:turn.bistri.com:80',
 		credential: 'homeo',
 		username: 'homeo'
-	}]
+	}, { urls: "stun:stun.stunprotocol.org" }]
 };
 var pc = new RTCPeerConnection(conf);
 var localStream, _fileChannel, chatEnabled, context, source,
