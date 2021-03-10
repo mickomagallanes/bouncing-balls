@@ -3,11 +3,6 @@ var conf = {
 		url: 'turn:relay.backups.cz',
 		credential: 'webrtc',
 		username: 'webrtc'
-	},
-	{
-		url: 'turn:relay.backups.cz?transport=tcp',
-		credential: 'webrtc',
-		username: 'webrtc'
 	}, { urls: "stun:stun.stunprotocol.org" }]
 };
 var pc = new RTCPeerConnection(conf);
@@ -90,6 +85,7 @@ pc.onconnection = function (e) {
 
 remoteOfferGot.onclick = function () {
 	var remoteValue = CryptoJS.AES.decrypt(remoteOffer.value, myPassword);
+	console.log(remoteValue.toString(CryptoJS.enc.Utf8));
 	var _remoteOffer = new RTCSessionDescription(JSON.parse(remoteValue.toString(CryptoJS.enc.Utf8)));
 	console.log('remoteOffer \n', _remoteOffer);
 	pc.setRemoteDescription(_remoteOffer).then(function () {
