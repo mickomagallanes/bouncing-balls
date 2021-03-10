@@ -1,8 +1,13 @@
 var conf = {
 	iceServers: [{
-		url: 'turn:turn.bistri.com:80',
-		credential: 'homeo',
-		username: 'homeo'
+		url: 'turn:relay.backups.cz',
+		credential: 'webrtc',
+		username: 'webrtc'
+	},
+	{
+		url: 'turn:relay.backups.cz?transport=tcp',
+		credential: 'webrtc',
+		username: 'webrtc'
 	}, { urls: "stun:stun.stunprotocol.org" }]
 };
 var pc = new RTCPeerConnection(conf);
