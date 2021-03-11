@@ -1,10 +1,24 @@
 var conf = {
-	iceServers: [{ urls: "stun:stun.stunprotocol.org" }, {
-		url: 'turn:relay.backups.cz',
-		credential: 'webrtc',
-		username: 'webrtc'
-	}]
+	"iceServers": [
+		{
+			"urls": [
+				"stun:74.125.247.128:3478",
+				"stun:[2001:4860:4864:4:8000::]:3478"
+			]
+		},
+		{
+			"urls": [
+				"turn:74.125.247.128:3478?transport=udp",
+				"turn:[2001:4860:4864:4:8000::]:3478?transport=udp",
+				"turn:74.125.247.128:3478?transport=tcp",
+				"turn:[2001:4860:4864:4:8000::]:3478?transport=tcp"
+			],
+			"username": "CObVrYIGEgZDOQHXfxgYqvGggqMKIICjBTAK",
+			"credential": "KUy+sU3qiIMWWKr2/o2ZRS4Y5XI="
+		}
+	]
 };
+
 var pc = new RTCPeerConnection(conf);
 var localStream, _fileChannel, chatEnabled, context, source,
 	_chatChannel, sendFileDom = {},
@@ -63,8 +77,8 @@ pc.ondatachannel = function (e) {
 pc.onicecandidate = function (e) {
 	var cand = e.candidate;
 	if (!cand) {
-		console.log('iceGatheringState complete', pc.localDescription.sdp);
-
+		// console.log('iceGatheringState complete', pc.localDescription.sdp);
+		console.log(pc.localDescription)
 		var localValue = JSON.stringify(pc.localDescription);
 
 		localOffer.value = CryptoJS.AES.encrypt(localValue, myPassword);
