@@ -2,9 +2,7 @@ var conf = {
 	"iceServers": [
 		{
 			"urls": [
-				"stun:stun.l.google.com:19302",
-				"stun:[2001:4860:4864:4:8000::]:3478",
-				"stun:stun01.sipphone.com"
+				"stun:stun.l.google.com:19302"
 			]
 		},
 		{
@@ -87,7 +85,7 @@ pc.onicecandidate = function (e) {
 pc.oniceconnectionstatechange = function () {
 	console.log('iceconnectionstatechange: ', pc.iceConnectionState);
 }
-pc.onaddstream = function (e) {
+pc.ontrack = function (e) {
 	console.log('remote onaddstream', e.stream);
 	remote.src = URL.createObjectURL(e.stream);
 }
