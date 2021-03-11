@@ -85,10 +85,7 @@ pc.onicecandidate = function (e) {
 pc.oniceconnectionstatechange = function () {
 	console.log('iceconnectionstatechange: ', pc.iceConnectionState);
 }
-pc.ontrack = function (e) {
-	console.log('remote onaddstream', e.stream);
-	remote.src = URL.createObjectURL(e.stream);
-}
+
 pc.onconnection = function (e) {
 	console.log('onconnection ', e);
 }
