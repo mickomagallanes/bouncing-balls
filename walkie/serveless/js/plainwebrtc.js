@@ -2,16 +2,14 @@ var conf = {
 	"iceServers": [
 		{
 			"urls": [
-				"stun:74.125.247.128:3478",
-				"stun:[2001:4860:4864:4:8000::]:3478"
+				"stun.l.google.com:19302",
+				"stun:[2001:4860:4864:4:8000::]:3478",
+				"stun01.sipphone.com"
 			]
 		},
 		{
 			"urls": [
-				"turn:74.125.247.128:3478?transport=udp",
-				"turn:[2001:4860:4864:4:8000::]:3478?transport=udp",
-				"turn:74.125.247.128:3478?transport=tcp",
-				"turn:[2001:4860:4864:4:8000::]:3478?transport=tcp"
+				"turn:74.125.247.128:3478?transport=udp"
 			],
 			"username": "CObVrYIGEgZDOQHXfxgYqvGggqMKIICjBTAK",
 			"credential": "KUy+sU3qiIMWWKr2/o2ZRS4Y5XI="
