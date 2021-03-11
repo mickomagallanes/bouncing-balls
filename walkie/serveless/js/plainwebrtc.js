@@ -2,8 +2,9 @@ var conf = {
 	"iceServers": [
 		{
 			"urls": [
-				"stun.l.google.com:19302",
-				"stun:[2001:4860:4864:4:8000::]:3478"
+				"stun:stun.l.google.com:19302",
+				"stun:[2001:4860:4864:4:8000::]:3478",
+				"stun:stun01.sipphone.com"
 			]
 		},
 		{
