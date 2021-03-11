@@ -1,9 +1,9 @@
 var conf = {
-	iceServers: [{
+	iceServers: [{ urls: "stun:stun.stunprotocol.org" }, {
 		url: 'turn:relay.backups.cz',
 		credential: 'webrtc',
 		username: 'webrtc'
-	}, { urls: "stun:stun.stunprotocol.org" }]
+	}]
 };
 var pc = new RTCPeerConnection(conf);
 var localStream, _fileChannel, chatEnabled, context, source,
